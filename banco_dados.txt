@@ -1,0 +1,29 @@
+Banco de dados
+
+CREATE DATABASE sistema_agendamento; -- Criando o banco de dados
+
+--------------------------------------------------------------------------------------
+-- Criando a tabela usuario
+CREATE TABLE usuario (
+    id_usuario INT AUTO_INCREMENT PRIMARY KEY,  
+    nome_usuario VARCHAR(100) NOT NULL,         
+    telefone VARCHAR(15),                       
+    cpf VARCHAR(11) NOT NULL UNIQUE,            
+    email VARCHAR(100) NOT NULL UNIQUE,         
+    data_nascimento DATE NOT NULL,              
+    senha VARCHAR(255) NOT NULL                 
+);
+
+-------------------------------------------------------------------------------------------------------------
+INSERT INTO usuario (nome_usuario, telefone, cpf, email, data_nascimento, senha) -- Inserindo um usuário de exemplo na tabela usuario
+VALUES ('João Silva', '11987654321', '12345678901', 'joao.silva@email.com', '1990-05-15', 'senha123');
+
+-------------------------------------------------------------------------------------------------------------
+--Criando tabela agendamentos 
+CREATE TABLE agendamentos (
+    cod_agendamento INT AUTO_INCREMENT PRIMARY KEY,
+    data_hora DATETIME NOT NULL,
+    id_usuario INT,
+    tipo VARCHAR(50) NOT NULL,
+    FOREIGN KEY (id_usuario) REFERENCES usuario(id_usuario) 
+);
