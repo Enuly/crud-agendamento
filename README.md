@@ -9,10 +9,7 @@ Este projeto é um sistema de agendamento de consultas, permitindo que pacientes
 - **Servidor**: XAMPP (para desenvolvimento local)
 
 ## Acesse o projeto no navegador em:
-   ```http
-   https://enuly.github.io/sistema-agendamento/agendou_web/index.html
-   ```
-
-   ```http
+   [Home]([https://enuly.github.io/Projeto-TecBlog/](https://enuly.github.io/sistema-agendamento/agendou_web/index.html))
    [cadastro](https://enuly.github.io/sistema-agendamento/agendou_web/cadastro.html)
-   ```
+   [Agendamento](https://enuly.github.io/sistema-agendamento/agendou_web/agenda.html)
+   [Usuarios](https://enuly.github.io/sistema-agendamento/agendou_web/lista-usuario.html)
