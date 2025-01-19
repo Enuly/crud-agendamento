@@ -1,0 +1,167 @@
+/* Estilo do container */
+.container {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    padding: 25px;
+    margin-top: 0;
+    background-color: #38b6ff;
+}
+
+.container-item.image img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+    max-height: 300px;
+}
+
+.container-item.text {
+    max-width: 50%;
+    padding: 10px;
+}
+
+.container-item.text h2 {
+    margin-bottom: 10px;
+    font-size: 30px;
+    color: #333;
+}
+
+.container-item.text p {
+    font-size: 20px;
+    color: #555;
+    line-height: 1.5;
+}
+
+/* Estilo da seção de cards */
+.info-cards {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px; 
+    margin: 20px auto;
+    padding: 10px;
+    max-width: 1200px;
+}
+
+.card {
+    background-color: #f9f9f9; 
+    border: 1px solid #ddd; 
+    border-radius: 8px;
+    flex: 1; 
+    padding: 20px;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease; 
+}
+
+.card:hover {
+    transform: translateY(-10px); 
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2); 
+}
+
+.card h2 {
+    font-size: 1.3rem;
+    color: #38b6ff;
+    margin-bottom: 10px;
+}
+
+.card p {
+    font-size: 0.9rem;
+    color: #555; 
+}
+
+/*Estilo da seção login*/
+.login-section {
+    text-align: center;
+    margin-top: 20px;
+    padding: 20px;
+}
+
+.login-header h2 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.6rem;
+    color: #555454;
+    margin-bottom: 25px;
+}
+
+.login-header p {
+    font-family: 'Roboto', sans-serif;
+    font-size: 1rem;
+    color: #666;
+    margin-bottom: 20px;
+    line-height: 1.6;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.card-login {
+    position: relative;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.3); 
+    padding: 20px;
+    max-width: 400px;
+    margin: auto;
+    text-align: center;
+}
+
+.card-login label {
+    display: block;
+    font-size: 1rem;
+    color: #555;
+    margin-bottom: 5px;
+    text-align: left;
+}
+
+.card-login input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+.card-login input:focus {
+    border: 0.5px solid #38b6ff;
+    outline: none; 
+}
+
+.card-login button {
+    width: 40%;
+    background-color: #38b6ff;
+    color: #fff;
+    border: none;
+    padding: 10px;
+    border-radius: 50px;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+.card-login button:hover {
+    background-color: #2a94cc;
+}
+
+.text-cadastro{
+    margin: 10PX;
+}
+
+.text-cadastro a{
+    padding: 10px;
+    font-size: 0.8rem;
+    outline: none;
+    text-decoration: none;
+}
+
+.container-bottom {
+    background-color: #38b6ff;
+    color: #fff;
+    text-align: center;
+    padding: 30px 20px;
+    padding-top: 100px;
+    margin-top: -90px;
+}
+
+.container-bottom p {
+    font-size: 1rem;
+    line-height: 1.6;
+}

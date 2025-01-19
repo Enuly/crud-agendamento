@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/agenda.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="shortcut icon" href="imagem/favicon.PNG" type="image/x-icon">
+    <title>Agendamento</title>
+</head>
+<body>
+
+    <header class="nav-home">
+        <div class="nav-item">
+            <img src="imagem/logo.png" alt="Logo">
+        </div>
+
+        <div class="nav-item">
+            <button class="btn-primary" onclick="scrollToLogin()">Agendar Consulta</button>
+        </div>
+    </header>
+
+
+    <section class="container">
+
+            <h1>Faça seu Agendamento</h1>
+
+        <div class="calendar-container" id="calendarContainer">
+            <label for="dataHora">Data e Hora:</label>
+            <input type="text" id="dataHora" name="dataHora" required placeholder="Escolha a data e hora" readonly>
+        </div>
+        
+        <form id="agendamentoForm">
+            <label for="id_usuario">ID do Usuário:</label>
+            <input type="number" id="id_usuario" name="id_usuario" required>
+    
+            <label for="tipo">Tipo:</label>
+            <select name="tipo" id="tipo">
+                <option value="manutencao">Manutenção</option>
+                <option value="faceta">Faceta</option>
+                <option value="aparelho">Aparelho</option>
+                <option value="limpeza">Limpeza</option>
+            </select>
+    
+            <div class="horarios-container">
+                <label for="horarios">Horários Disponíveis:</label>
+                <ul class="horarios-list" id="horarios">
+                    <!-- Os horários serão inseridos aqui -->
+                </ul>
+            </div>
+    
+            <button type="submit">Agendar</button>
+        </form>
+
+    </section>
+    
+    <div class="alert" id="alertMessage">
+        Agendamento criado com sucesso!
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script>
+        const horariosDisponiveis = [
+            "08:00", "09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00"
+        ];
+
+        function carregarHorarios() {
+            const listaHorarios = document.getElementById("horarios");
+            listaHorarios.innerHTML = ""; // Limpa a lista atual
+
+            horariosDisponiveis.forEach(horario => {
+                const li = document.createElement("li");
+                li.textContent = horario;
+                li.onclick = function() {
+                    document.getElementById("dataHora").value = getDataAtual() + " " + horario;
+                };
+                listaHorarios.appendChild(li);
+            });
+        }
+
+        function getDataAtual() {
+            const data = new Date();
+            const ano = data.getFullYear();
+            const mes = String(data.getMonth() + 1).padStart(2, "0");
+            const dia = String(data.getDate()).padStart(2, "0");
+            return `${ano}-${mes}-${dia}`;
+        }
+
+        window.onload = function() {
+            carregarHorarios();
+
+            flatpickr("#dataHora", {
+                enableTime: true, 
+                noCalendar: false, 
+                dateFormat: "Y-m-d H:i", 
+                inline: true, 
+                altInput: true,
+                altFormat: "d/m/Y H:i",
+                minDate: "today", 
+                defaultDate: new Date(),  
+                appendTo: "#calendarContainer" 
+            });
+        };
+
+        document.getElementById("agendamentoForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            const agendamentoData = {
+                id_usuario: document.getElementById("id_usuario").value,
+                data_hora: document.getElementById("dataHora").value,
+                tipo: document.getElementById("tipo").value
+            };
+
+            fetch('http://localhost/projeto_agendamento/api.agendamento/api/agendamento/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(agendamentoData)
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("Erro ao criar agendamento. Status: " + response.status);
+                }
+                return response.json(); 
+            })
+            .then(data => {
+                // Exibe a mensagem de sucesso
+                const alertMessage = document.getElementById("alertMessage");
+                alertMessage.textContent = "Agendamento criado com sucesso!";
+                alertMessage.style.display = "block";
+
+                setTimeout(() => {
+                    alertMessage.style.display = "none";
+                }, 5000);
+
+                document.getElementById("agendamentoForm").reset();
+            })
+            .catch(error => {
+                console.error("Erro ao criar agendamento:", error);
+                alert("Erro ao criar agendamento!");
+        
+            });
+        });
+    </script>
+</body>
+</html>

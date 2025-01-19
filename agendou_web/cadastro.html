@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/cadastro.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="shortcut icon" href="imagem/favicon.PNG" type="image/x-icon">
+    <title>Cadastro | Agendou</title>
+</head>
+<body>
+
+    <header class="nav-home">
+        <div class="nav-item">
+            <img src="imagem/logo.png" alt="Logo">
+        </div>
+
+        <div class="nav-item">
+            <button class="btn-primary" onclick="scrollToLogin()">Agendar Consulta</button>
+        </div>
+    </header>
+
+    <section class="cadastro-section">
+        <div class="container-form">
+            <div class="form-cadastro">
+                <h1>Cadastre-se</h1>
+                <form id="userForm">
+                    <label for="nome_usuario">Nome:</label>
+                    <input type="text" id="nome_usuario" required><br>
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" required><br>
+                    <label for="telefone">Telefone:</label>
+                    <input type="text" id="telefone" required><br>
+                    <label for="cpf">CPF:</label>
+                    <input type="text" id="cpf" required><br>
+                    <label for="data_nascimento">Data de Nascimento:</label>
+                    <input type="date" id="data_nascimento" required><br>
+                    <label for="senha">Senha:</label>
+                    <input type="password" id="senha" required><br>
+                    <button type="submit">Cadastrar</button>
+                </form>
+            </div>
+            <div class="welcome-container">
+                <h2>Bem-vindo ao nosso site!</h2>
+                <p>Por favor, preencha o formulário ao lado para se cadastrar e começar a usar nossos serviços.</p>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        document.getElementById("userForm").addEventListener("submit", function(event) {
+            event.preventDefault(); 
+
+            const userData = {
+                nome_usuario: document.getElementById("nome_usuario").value,
+                email: document.getElementById("email").value,
+                telefone: document.getElementById("telefone").value,
+                cpf: document.getElementById("cpf").value,
+                data_nascimento: document.getElementById("data_nascimento").value,
+                senha: document.getElementById("senha").value
+            };
+
+            // Envia os dados para a API
+            fetch('http://localhost/projeto_agendamento/api.crud/api/Usuario/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(userData)
+            })
+            .then(response => {
+                if (!response.ok) {
+                    return response.json().then(errorData => {
+                        throw new Error(errorData.message || "Erro desconhecido.");
+                    });
+                }
+                return response.json(); 
+            })
+            .then(data => {
+                console.log("Resposta da API:", data); 
+
+                let info;
+                try {
+                    info = JSON.parse(data.information);
+                } catch (e) {
+                    info = null;
+                }
+
+                if (info && info.status === "success") {
+                    alert(info.message); 
+                    window.location.href = "agenda.html"; 
+                } else {
+                    alert("Erro inesperado ao cadastrar usuário.");
+                }
+            })
+            .catch(error => {
+                console.error("Erro ao criar usuário:", error.message);
+                alert("Erro ao criar usuário: " + error.message);
+            });
+        });
+
+    </script>
+</body>
+</html>

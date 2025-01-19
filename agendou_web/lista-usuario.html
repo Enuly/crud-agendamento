@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/lista.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="shortcut icon" href="imagem/favicon.PNG" type="image/x-icon">
+    <title>Agendamentos e Usuários</title>
+
+</head>
+<body>
+    <h1>Tabela de Usuários e Agendamentos</h1>
+    <div id="search-container">
+        <label for="search-id">Pesquisar Usuário:</label>
+        <input type="number" id="search-id" placeholder="Digite o ID do usuário">
+        <button onclick="buscarUsuario()">Pesquisar</button>
+    </div>
+
+    <div id="tabelaJunta"></div>
+
+    <div id="edit-container" style="display:none;">
+        <h2>Alterar Dados do Usuário</h2>
+        <form id="edit-form">
+            <label for="edit-nome">Nome:</label>
+            <input type="text" id="edit-nome" required><br>
+
+            <label for="edit-telefone">Telefone:</label>
+            <input type="text" id="edit-telefone" required><br>
+
+            <label for="edit-cpf">CPF:</label>
+            <input type="text" id="edit-cpf" required><br>
+
+            <label for="edit-email">Email:</label>
+            <input type="email" id="edit-email" required><br>
+
+            <label for="edit-data-nascimento">Data de Nascimento:</label>
+            <input type="date" id="edit-data-nascimento" required><br>
+
+            <label for="edit-senha">Senha:</label>
+            <input type="password" id="edit-senha"><br>
+
+            <button type="submit">Alterar</button>
+        </form>
+    </div>
+
+    <script>
+        let usuarios = [];
+        let agendamentos = [];
+        let usuarioParaAlterar = null;
+
+        async function carregarDados() {
+            try {
+                const usuariosResponse = await fetch('http://localhost/projeto_agendamento/api.crud/api/Usuario/');
+                const agendamentosResponse = await fetch('http://localhost/projeto_agendamento/api.agendamento/api/Agendamento/');
+
+                const usuariosRaw = await usuariosResponse.json();
+                const agendamentosRaw = await agendamentosResponse.json();
+
+                // Acessando apenas a lista de usuários e agendamentos
+                usuarios = usuariosRaw.information || [];
+                agendamentos = agendamentosRaw.information || [];
+
+                console.log("Usuários:", usuarios);
+                console.log("Agendamentos:", agendamentos);
+
+                criarTabelaJunta(usuarios, agendamentos);
+            } catch (error) {
+                console.error("Erro ao carregar dados:", error);
+            }
+        }
+
+        function criarTabelaJunta(usuarios, agendamentos) {
+            const tabela = document.createElement("table");
+            const cabecalho = document.createElement("thead");
+            const corpo = document.createElement("tbody");
+
+            const cabecalhoHTML = `
+                <tr>
+                    <th>ID Usuário</th>
+                    <th>Nome</th>
+                    <th>CPF</th>
+                    <th>Data de Nascimento</th>
+                    <th>Telefone</th>
+                    <th>Email</th>
+                    <th>Data/Hora do Agendamento</th>
+                    <th>Tipo de Consulta</th>
+                    <th>Ações</th>
+                </tr>
+            `;
+            cabecalho.innerHTML = cabecalhoHTML;
+            tabela.appendChild(cabecalho);
+
+            usuarios.forEach(usuario => {
+                const agendamentosUsuario = agendamentos.filter(agendamento => 
+                    parseInt(agendamento.id_usuario) === parseInt(usuario.id_usuario)
+                );
+
+                const tr = document.createElement("tr");
+                tr.innerHTML = `
+                    <td>${usuario.id_usuario}</td>
+                    <td>${usuario.nome_usuario}</td>
+                    <td>${usuario.cpf || "N/A"}</td>
+                    <td>${usuario.data_nascimento || "N/A"}</td>
+                    <td>${usuario.telefone || "N/A"}</td>
+                    <td>${usuario.email}</td>
+                    <td>${agendamentosUsuario.length > 0 ? agendamentosUsuario[0].data_hora : 'Sem agendamentos'}</td>
+                    <td>${agendamentosUsuario.length > 0 ? agendamentosUsuario[0].tipo : 'N/A'}</td>
+                    <td>
+                        <button onclick="editarUsuario(${usuario.id_usuario})">Editar</button>
+                        <button onclick="excluirUsuario(${usuario.id_usuario})">Excluir</button>
+                    </td>
+                `;
+                corpo.appendChild(tr);
+            });
+
+            tabela.appendChild(corpo);
+            const tabelaContainer = document.getElementById("tabelaJunta");
+            tabelaContainer.innerHTML = "";
+            tabelaContainer.appendChild(tabela);
+        }
+
+        function buscarUsuario() {
+            const id = parseInt(document.getElementById("search-id").value);
+            if (!id) {
+                alert("Por favor, insira um ID válido.");
+                return;
+            }
+
+            const usuarioEncontrado = usuarios.find(usuario => parseInt(usuario.id_usuario) === id);
+
+            if (!usuarioEncontrado) {
+                alert("Usuário não encontrado.");
+                return;
+            }
+
+            const agendamentosUsuario = agendamentos.filter(agendamento => 
+                parseInt(agendamento.id_usuario) === id
+            );
+
+            criarTabelaJunta([usuarioEncontrado], agendamentosUsuario);
+        }
+
+        function editarUsuario(id) {
+            usuarioParaAlterar = usuarios.find(usuario => usuario.id_usuario === id);
+            if (usuarioParaAlterar) {
+                document.getElementById("edit-nome").value = usuarioParaAlterar.nome_usuario;
+                document.getElementById("edit-telefone").value = usuarioParaAlterar.telefone;
+                document.getElementById("edit-cpf").value = usuarioParaAlterar.cpf;
+                document.getElementById("edit-email").value = usuarioParaAlterar.email;
+                document.getElementById("edit-data-nascimento").value = usuarioParaAlterar.data_nascimento;
+
+                // Exibe o formulário de edição
+                document.getElementById("edit-container").style.display = 'block';
+            } else {
+                alert("Usuário não encontrado para edição.");
+            }
+        }
+
+        async function alterarDados(event) {
+            event.preventDefault();
+
+            const dadosAlterados = {
+                nome_usuario: document.getElementById("edit-nome").value,
+                telefone: document.getElementById("edit-telefone").value,
+                cpf: document.getElementById("edit-cpf").value,
+                email: document.getElementById("edit-email").value,
+                data_nascimento: document.getElementById("edit-data-nascimento").value,
+                senha: document.getElementById("edit-senha").value || undefined,
+            };
+
+            try {
+                const response = await fetch(`http://localhost/projeto_agendamento/api.crud/api/Usuario/${usuarioParaAlterar.id_usuario}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(dadosAlterados),
+                });
+
+                const result = await response.json();
+                alert(result.message);
+                carregarDados();
+                document.getElementById("edit-container").style.display = 'none'; 
+            } catch (error) {
+                console.error("Erro ao alterar dados:", error);
+                alert("Erro ao alterar dados.");
+            }
+        }
+
+        function excluirUsuario(id) {
+            if (confirm("Tem certeza que deseja excluir este usuário?")) {
+                fetch(`http://localhost/projeto_agendamento/api.crud/api/Usuario/${id}`, {
+                    method: 'DELETE',
+                })
+                .then(response => response.json())
+                .then(result => {
+                    alert(result.message);
+                    carregarDados(); 
+                })
+                .catch(error => {
+                    console.error("Erro ao excluir usuário:", error);
+                    alert("Erro ao excluir usuário.");
+                });
+            }
+        }
+
+        document.getElementById("edit-form").addEventListener("submit", alterarDados);
+
+        carregarDados();
+    </script>
+</body>
+</html>

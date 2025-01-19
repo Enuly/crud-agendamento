@@ -1,0 +1,134 @@
+body {
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 20px;
+    color: #333;
+    line-height: 1.6;
+}
+
+h1 {
+    text-align: center;
+    color: #38b6ff;
+    margin-bottom: 20px;
+}
+
+#search-container {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+#search-container label {
+    font-size: 1.1rem;
+    margin-right: 10px;
+    color: #555;
+}
+
+#search-container input {
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 250px;
+    margin-right: 10px;
+}
+
+#search-container input:focus {
+    border: 0.5px solid #38b6ff;
+    outline: none; 
+}
+
+#search-container button {
+    padding: 10px 20px;
+    font-size: 1rem;
+    color: #fff;
+    background-color: #38b6ff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#search-container button:hover {
+    background-color: #2a94cc;
+}
+
+#tabelaJunta {
+    margin: 0 auto;
+    max-width: 90%;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 15px;
+    font-size: 0.9rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.064);
+    text-align: center;
+}
+
+#tabelaJunta button {
+    color: #fff;
+    background-color: #38b6ff;
+    padding: 5px;
+    margin: 2px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#tabelaJunta button:hover {
+    background-color: #2a94cc;
+}
+
+#edit-container {
+    max-width: 30%;
+    margin: 20px auto;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+#edit-container h2 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+#edit-form label {
+    display: block;
+    font-size: 0.8rem;
+    margin-bottom: 5px;
+    color: #555;
+}
+
+#edit-form input {
+    width: 100%;
+    padding: 10px;
+    font-size: 0.8rem;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+#edit-form input:focus {
+    border: 0.5px solid #38b6ff;
+    outline: none; 
+}
+
+#edit-form button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    font-size: 1rem;
+    color: #fff;
+    background-color: #38b6ff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#edit-form button:hover {
+    background-color: #2a94cc;
+}

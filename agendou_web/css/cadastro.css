@@ -1,0 +1,92 @@
+body{
+    height: 100vh;
+    background-color: #38b6ff;
+}
+
+.cadastro-section {
+    height: 100%;
+    text-align: center;
+    padding: 20px;
+}
+
+.cadastro-section .container-form{
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    align-items: center;
+    max-width: 60%;
+    margin: 0 auto;
+    background-color: #f9f9f9; 
+    border: 1px solid #ddd; 
+    border-radius: 10px;
+    padding: 20px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease; 
+}
+
+.container-form:hover {
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2); 
+}
+
+.cadastro-section .form-cadastro {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+}
+
+.form-cadastro h1 {
+    color: #2a94cc;
+}
+
+.cadastro-section form {
+    text-align: left;
+    font-size: 16px;
+    margin: 12px 0;
+}
+
+#userForm label {
+    font-size: 1rem;
+    color: #555;
+}
+
+#userForm input { 
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 12px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+#userForm input:focus {
+    border: 0.5px solid #38b6ff;
+    outline: none; 
+}
+
+.cadastro-section button{
+    width: 100%;
+    border: none;
+    padding: 10px;
+    border-radius: 50px;
+    color: #fff;
+    background-color: #38b6ff;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+.cadastro-section button:hover {
+    background-color: #2a94cc;
+}
+
+.welcome-container {
+    max-width: 350px;   
+    margin-left: 20px;
+}
+
+.welcome-container h2, p {
+    margin: 10px;
+    color: #555454;
+}
+
+.welcome-container h2 {
+    color: #2a94cc;
+}
